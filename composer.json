@@ -1,11 +1,52 @@
 {
   "name": "waynoss/bedrock",
   "type": "project",
-  "config": {
-    "preferred-install": "dist",
+  "license": "MIT",
+  "description": "A modern WordPress stack",
+  "autoload": {
+    "psr-0": {"Bedrock\\Installer": "scripts"}
   },
-  "minimum-stability": "stable",
+  "scripts": {
+    "post-root-package-install": ["Bedrock\\Installer::addSalts"]
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "http://wpackagist.org"
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "wordpress",
+        "version": "3.8.1",
+        "type": "webroot",
+        "dist": {
+          "type": "zip",
+          "url": "https://github.com/WordPress/WordPress/archive/3.8.1.zip"
+        },
+        "require" : {
+          "fancyguy/webroot-installer": "1.1.0"
+        }
+      }
+    }
+  ],
   "require": {
     "php": ">=5.3.2",
-  }
+    "wordpress": "3.8.1",
+    "fancyguy/webroot-installer": "1.1.0",
+    "composer/installers": "v1.0.6"
+  },
+  "extra": {
+    "installer-paths": {
+      "app/plugins/{$name}/": ["type:wordpress-plugin"],
+      "app/mu-plugins/{$name}/": ["type:wordpress-muplugin"],
+      "app/themes/{$name}/": ["type:wordpress-theme"]
+    },
+    "webroot-dir": "wp",
+    "webroot-package": "wordpress"
+  },
+  "config": {
+    "preferred-install": "dist"
+  },
+  "minimum-stability": "stable"
 }
